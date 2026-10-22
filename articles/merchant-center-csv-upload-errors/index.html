@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Troubleshoot Merchant Center CSV upload errors: understand CSV vs TSV, export tab-delimited text, check headers and shifted rows, and review processing results.">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<link rel="canonical" href="https://engdabous-cmd.github.io/rowvia-interest/articles/merchant-center-csv-upload-errors/">
+<title>Merchant Center CSV Upload Errors: CSV vs TSV | Rowvia</title>
+<style>
+:root{color-scheme:light;--ink:#173d37;--muted:#49625c;--paper:#f6f5ee;--line:#c7d3c9;--accent:#e3f28b}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:inherit;text-underline-offset:4px}a:focus-visible{outline:3px solid #173d37;outline-offset:5px}.wrap{max-width:1120px;margin:auto;padding:0 32px}header{padding:25px 0;border-bottom:1px solid var(--line)}.brand{font-size:26px;font-weight:750;letter-spacing:-1px}.header-row,.section-head{display:flex;justify-content:space-between;align-items:center;gap:22px}.eyebrow{font:700 12px/1.5 system-ui;letter-spacing:2px;text-transform:uppercase}.status{font-size:13px;border:1px solid var(--line);padding:7px 13px;border-radius:30px}.hero{padding:76px 0 65px;display:grid;grid-template-columns:1.25fr 1fr;gap:70px;align-items:center}h1{font-size:clamp(40px,5.7vw,68px);font-weight:600;line-height:1.06;letter-spacing:-3px;margin:18px 0 26px}h2{font-size:32px;line-height:1.2;letter-spacing:-1px;font-weight:600}h3{font-size:20px;line-height:1.35;margin:0 0 10px}p{margin:0 0 18px}.lede{font-size:20px;line-height:1.6;color:var(--muted);max-width:590px}.stamp{display:inline-block;background:var(--accent);padding:6px 12px;font-size:13px;font-weight:700}.illustration{background:#173d37;color:#fffdf4;padding:32px;border-radius:5px;box-shadow:12px 12px 0 #e2e6d9}.illustration .eyebrow{color:#d9e7c1}.sample-row{margin-top:24px;border-top:1px solid #527069;padding-top:18px;font-size:15px}.sample-row code{display:block;color:var(--accent);font-size:14px;margin-bottom:7px}.annotation{margin-top:28px;color:#d6e2da;font-size:13px}.scope{padding:48px 0;border-top:1px solid var(--line)}.scope-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:35px;margin-top:30px}.number{font-size:13px;color:var(--muted);display:block;margin-bottom:16px}.limits{display:grid;grid-template-columns:1fr 1.4fr;gap:60px;border-top:1px solid var(--line);padding:48px 0}.limits ul{margin:0;padding-left:20px}.limits li{margin:0 0 12px}.interest{background:#e9eddf;padding:38px;margin:5px 0 50px;display:grid;grid-template-columns:1fr 1fr;gap:45px}.cta{display:inline-block;padding:14px 21px;background:var(--ink);color:white;text-decoration:none;border-radius:3px;font-weight:650;margin:10px 0 16px}.small{font-size:14px;color:var(--muted)}footer{padding:25px 0 35px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}.sources{display:flex;flex-wrap:wrap;gap:10px 24px;margin:20px 0} @media(max-width:760px){.wrap{padding:0 22px}.hero{grid-template-columns:1fr;gap:32px;padding:45px 0}.scope-grid,.limits,.interest{grid-template-columns:1fr;gap:25px}.header-row{align-items:flex-start;flex-direction:column;gap:10px}h1{letter-spacing:-1.8px}.interest{padding:25px}.illustration{box-shadow:7px 7px 0 #e2e6d9}.section-head{display:block}}
+
+.reading{max-width:790px;padding-top:45px;padding-bottom:55px}.reading h1{font-size:clamp(34px,5vw,54px);line-height:1.12;letter-spacing:-1.7px}.reading h2{font-size:28px;margin-top:40px}.reading li{margin-bottom:10px}.reading pre{overflow-x:auto;background:#e9eddf;padding:20px;font-size:14px;line-height:1.7}.reading .note{padding:24px;background:#e9eddf;border-left:4px solid var(--ink)}nav{font-size:14px}nav a{display:inline-block;padding:5px 0}.reading .lede{max-width:none}
+</style>
+</head>
+<body>
+<header><div class="wrap header-row"><a class="brand" href="/rowvia-interest/" aria-label="Rowvia home">rowvia<span aria-hidden="true"> ↗</span></a><nav aria-label="Main navigation"><a href="/rowvia-interest/">About Rowvia</a> · <a href="/rowvia-interest/articles/merchant-center-csv-upload-errors/">CSV upload guide</a></nav><span class="status">Private pilot not yet open</span></div></header>
+<main class="wrap reading" id="main">
+<article>
+<p class="eyebrow">Product feed preparation</p>
+<h1>Merchant Center CSV upload errors: check CSV vs TSV first</h1>
+<p class="small">By Rowvia · Published <time datetime="2026-10-22">22 October 2026</time> · Official Google guidance checked on this date</p>
+<p class="lede">If your shop exports a CSV and Merchant Center cannot read the upload, start with the file structure. Changing product descriptions will not repair a separator problem.</p>
+<p>This guide covers preparing a tab-delimited product file from a shop export. It does not diagnose your account or guarantee approval.</p>
+<nav aria-label="On this page"><strong>On this page:</strong> <a href="#formats">File formats</a> · <a href="#convert">Convert a copy</a> · <a href="#rows">Shifted rows</a> · <a href="#results">Processing results</a></nav>
+
+<h2 id="formats">Does Merchant Center accept CSV or TSV?</h2>
+<p>Google’s <a href="https://support.google.com/merchants/answer/12631822?hl=en" rel="noreferrer">Create a product file guide</a> lists TXT, TSV and XML and describes tab-delimited spreadsheets or XML as the file types. A comma-separated shop export is therefore not automatically ready for that documented file-upload route.</p>
+<p>There is a wording nuance: individual attribute pages, including Google’s <a href="https://support.google.com/merchants/answer/6324405?hl=en" rel="noreferrer">ID guidance</a>, label some text examples “TSV or CSV.” An attribute example alone does not establish which file your chosen import route accepts. Check the instructions for your actual data source, especially if a platform integration handles submission.</p>
+<p>CSV separates fields with commas; TSV uses tabs. Changing <code>catalog.csv</code> to <code>catalog.tsv</code> changes the name, not the content. Export the intended format from a correctly imported working copy.</p>
+
+<h2 id="convert">Convert a working copy to tab-delimited text</h2>
+<p>Keep the original export privately so you can compare it with your changes. The following is a preparation workflow, not an automatic conversion or a complete feed template:</p>
+<ol>
+<li><strong>Import deliberately.</strong> In your spreadsheet editor, choose the separator used by the source export. Check that titles and descriptions occupy the intended columns. Preserve identifiers as text so leading zeros are not lost.</li>
+<li><strong>Map the header.</strong> Use the attribute names required by Google, rather than your shop’s internal column labels. Check the <a href="https://support.google.com/merchants/answer/7052112?hl=en" rel="noreferrer">product data specification</a> for the attributes your products and destinations need.</li>
+<li><strong>Export the intended sheet.</strong> Google’s <a href="https://support.google.com/merchants/answer/14989239?hl=en" rel="noreferrer">tab-delimited instructions</a> describe Excel’s Text (tab delimited) TXT option and Google Sheets’ tab-separated download. The same instructions describe a TXT filename for submission; the general file guide also lists TSV. Follow your data-source setup and match its registered filename where applicable.</li>
+<li><strong>Inspect the saved text.</strong> Confirm that the exported file contains tabs between fields. Check the saved artifact itself; a spreadsheet view can hide an export mistake.</li>
+</ol>
+<p>Do not replace every comma with a tab. A comma may belong inside a description or a quoted CSV value. A blind replacement can create extra columns and corrupt your data.</p>
+
+<h2 id="rows">Find extra or missing separators</h2>
+<p>For tab-delimited files, Google specifies an attribute header, one product per subsequent line, and tabs separating fields. It warns against tabs or line breaks inside attribute values and trailing tabs at line ends. See the <a href="https://support.google.com/merchants/answer/14989239?hl=en" rel="noreferrer">format requirements</a>.</p>
+<p>This fictional sketch shows a shifted row. The arrow represents a tab; do not put arrows in your upload. These three columns illustrate alignment only and are not a complete product file.</p>
+<pre aria-label="Fictional column alignment example"><code>id    → title        → description
+SKU-A → Ceramic mug  → Blue glazed mug
+SKU-B → Notebook     → Pocket → notebook</code></pre>
+<p>The final row has four fields under three headers. Investigate whether the description contains an unintended tab or the export mapping is wrong. Compare the source cell, the header and an intact row before changing anything. Do not delete a product fact just to make the column count match.</p>
+<p>Google’s <a href="https://support.google.com/merchants/answer/13760862?hl=en" rel="noreferrer">data-source troubleshooting guide</a> identifies extra or missing tabs as a cause of column misalignment. An empty cell can be intentional; check whether its attribute is required before filling it.</p>
+
+<h2 id="results">After upload, separate parsing from approval</h2>
+<p>Review the data source’s latest processing results for file and attribute issues. Google says processing checks basic file and data problems; review Products’ “Needs Attention” area for the wider set of issues. The <a href="https://support.google.com/merchants/answer/13760862?hl=en" rel="noreferrer">troubleshooting guide</a> explains where to find these reports.</p>
+<p>A readable file still needs accurate product information and must meet applicable destination, category, country and policy requirements. Price and availability must reflect the real offer. Use the <a href="https://support.google.com/merchants/answer/7052112?hl=en" rel="noreferrer">product data specification</a> for that separate review. Successful parsing does not establish approval.</p>
+
+<aside class="note" aria-labelledby="rowvia-next">
+<h2 id="rowvia-next" style="margin-top:0">Where Rowvia fits</h2>
+<p>Rowvia is a browser-based CSV pre-upload checker in development. Its prototype scope is comma-delimited UTF-8 CSV; it is not a TSV/XML submission generator and cannot certify a direct-upload file, inspect live checkout or promise Merchant Center approval. Runtime privacy and accessibility verification remain incomplete; no privacy or security certification is claimed.</p>
+<p><strong>Private pilot not yet open.</strong> If this is a recurring problem, <a href="/rowvia-interest/#interest">read about Rowvia and optionally express interest by email</a>. No signup form, automatic subscription or file collection is offered. Do not send feed files, customer info, product exports or sensitive records.</p>
+<p class="small">Rowvia is independent of Google, with no implied affiliation or endorsement. It is a separate new project under the same founder as MFG Revenue Works. The interest page explains the shared professional inbox and normal email-provider processing.</p>
+</aside>
+</article>
+</main>
+<footer><div class="wrap"><p>Rowvia · Project information · Updated 22 October 2026</p><p>This page has no analytics scripts, tracking pixels, cookies set by page code, forms or third-party assets. The hosting provider may process technical request data; GitHub Pages logs visitor IP addresses for security. External documentation links open their respective services.</p></div></footer>
+</body>
+</html>
